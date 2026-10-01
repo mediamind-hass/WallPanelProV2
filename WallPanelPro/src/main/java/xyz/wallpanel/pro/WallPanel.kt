@@ -16,17 +16,11 @@
 
 package xyz.wallpanel.pro
 
-import android.R.attr
 import android.content.ComponentCallbacks2
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Build
-import android.os.Process.myPid
-import android.os.StrictMode
-import android.os.StrictMode.ThreadPolicy
-import android.os.StrictMode.VmPolicy
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.multidex.MultiDex
@@ -36,13 +30,9 @@ import dagger.android.support.DaggerApplication
 import org.mozilla.geckoview.GeckoRuntime
 import timber.log.Timber
 import xyz.wallpanel.pro.di.DaggerApplicationComponent
-import xyz.wallpanel.pro.utils.CrashlyticsDebugTree
 import xyz.wallpanel.pro.utils.LauncherShortcuts
-import xyz.wallpanel.pro.utils.WallpanelDebugTree
-
 
 class WallPanel : DaggerApplication() {
-
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         return DaggerApplicationComponent.builder().create(this)
@@ -60,36 +50,7 @@ class WallPanel : DaggerApplication() {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
         
-        if (BuildConfig.DEBUG) {
-            // Gives clickable links to the issue in the Android Studio Logcat
-            Timber.plant(WallpanelDebugTree())
-            // Timber.plant(Timber.DebugTree())
-        } else {
-            Timber.plant(CrashlyticsDebugTree())
-            // Timber.plant(CrashlyticsTree())
-        }
-        strictMode()
         LauncherShortcuts.createShortcuts(this)
-    }
-
-    private fun strictMode() {
-        if (BuildConfig.DEBUG) {
-            StrictMode.setThreadPolicy(
-                ThreadPolicy.Builder()
-                    .detectDiskReads()
-                    .detectDiskWrites()
-                    .detectNetwork() // or .detectAll() for all detectable problems
-                    .penaltyLog()
-                    .build()
-            )
-            StrictMode.setVmPolicy(
-                VmPolicy.Builder()
-                    .detectLeakedSqlLiteObjects()
-                    .detectLeakedClosableObjects()
-                    .penaltyLog()
-                    .build()
-            )
-        }
     }
 
     /**

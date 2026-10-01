@@ -195,7 +195,6 @@ public class MotionDetector {
             Camera.Size size = getBestPreviewSize(width, height, parameters);
             if (size != null) {
                 parameters.setPreviewSize(size.width, size.height);
-                Log.d("MotionDetector", "Using width=" + size.width + " height=" + size.height);
             }
             mCamera.setParameters(parameters);
             mCamera.startPreview();

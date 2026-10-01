@@ -152,15 +152,6 @@ class MQTT3Service(
     private fun initialize(options: MQTTOptions) {
         try {
             mqttOptions = options
-            Timber.i("Service Configuration:")
-            Timber.i("Client ID: %s", mqttOptions!!.getClientId())
-            Timber.i("Username: %s", mqttOptions!!.getUsername())
-            Timber.i("Password: %s", mqttOptions!!.getPassword())
-            Timber.i("TslConnect: %s", mqttOptions!!.getTlsConnection())
-            Timber.i("MQTT Configuration:")
-            Timber.i("Broker: %s", mqttOptions?.brokerUrl)
-            Timber.i("Subscribed to state topics: %s", mqttOptions!!.getStateTopics().convertArrayToString())
-            Timber.i("Publishing to base topic: %s", mqttOptions!!.getBaseTopic())
             mqttOptions?.let {
                 if (it.isValid) {
                     initializeMqttClient()

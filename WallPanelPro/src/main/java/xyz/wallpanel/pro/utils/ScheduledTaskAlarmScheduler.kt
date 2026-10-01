@@ -85,7 +85,6 @@ object ScheduledTaskAlarmScheduler {
             } else {
                 alarmManager.set(AlarmManager.RTC_WAKEUP, triggerMillis, pendingIntent)
             }
-            Timber.d("Scheduled task ${schedule.id} (${schedule.action.command}) for ${Calendar.getInstance().apply { timeInMillis = triggerMillis }.time}")
         } catch (e: Exception) {
             Timber.e(e, "Could not schedule task ${schedule.id}")
         }

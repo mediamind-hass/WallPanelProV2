@@ -25,6 +25,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.WindowManager
@@ -239,6 +240,13 @@ abstract class BaseBrowserActivity : DaggerAppCompatActivity() {
         setScreenSaverActive(false)
         window.clearFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED)
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        if (ev != null && ev.action == MotionEvent.ACTION_DOWN) {
+            onUserInteraction()
+        }
+        return super.dispatchTouchEvent(ev)
     }
 
     override fun onUserInteraction() {

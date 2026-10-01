@@ -59,6 +59,15 @@
     <uses-feature
         android:name="android.hardware.touchscreen"
         android:required="true" />
+    <uses-feature
+        android:name="android.hardware.touchscreen.multitouch"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.touchscreen.multitouch.distinct"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.faketouch"
+        android:required="false" />
 
     <application
         android:name="xyz.wallpanel.pro.WallPanel"
@@ -72,6 +81,15 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
+
+        <!-- Amazon Fire OS Touchscreen Support Meta-Data -->
+        <meta-data
+            android:name="com.amazon.hardware.tv.touchscreen"
+            android:value="true" />
+        <meta-data
+            android:name="isGame"
+            android:value="false" />
+
         <!-- android:networkSecurityConfig="@xml/network_config"-->
         <!--<activity android:name=".ui.activities.TestActivity" android:exported="true">
             <intent-filter>
@@ -90,7 +108,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

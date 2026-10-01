@@ -219,10 +219,14 @@ abstract class BaseBrowserActivity : DaggerAppCompatActivity() {
             decorView?.keepScreenOn = false
         }
         wallPanelService = Intent(this, WallPanelService::class.java)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(wallPanelService)
-        } else {
-            startService(wallPanelService)
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(wallPanelService)
+            } else {
+                startService(wallPanelService)
+            }
+        } catch (e: Exception) {
+            Timber.e(e, "Unable to start WallPanelService")
         }
         resetScreenBrightness(false)
     }

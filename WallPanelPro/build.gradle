@@ -57,7 +57,7 @@ android {
     defaultConfig {
         applicationId "xyz.wallpanel.pro"
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}.${versionBuild}"
         multiDexEnabled true
@@ -83,12 +83,9 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
-    }
-    lintOptions {
-        abortOnError false
     }
     buildFeatures {
         viewBinding true
@@ -168,6 +165,9 @@ android {
         }
     }
     namespace 'xyz.wallpanel.pro'
+    lint {
+        abortOnError false
+    }
 }
 
 dependencies {
@@ -231,12 +231,8 @@ dependencies {
     // Pinned to an exact build, since release artifacts stay on Mozilla's Maven for good.
     implementation "org.mozilla.geckoview:geckoview:144.0.20251027123126"
 
-    // debugImplementation because LeakCanary should only run in debug builds.
+    // LeakCanary should only run in debug builds.
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
-    // LeakCanary for releases
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-release:2.9.1'
-    // Optional: detect retained objects. This helps but is not required.
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-object-watcher-android:2.9.1'
 
     // Unit tests (JVM, no emulator)
     testImplementation 'junit:junit:4.13.2'

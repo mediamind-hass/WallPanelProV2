@@ -22,6 +22,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
+import androidx.core.content.ContextCompat
 
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean

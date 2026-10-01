@@ -24,6 +24,8 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.Manifest
 import android.content.pm.PackageManager
+import android.content.pm.ServiceInfo
+import androidx.core.app.ServiceCompat
 import android.hardware.display.DisplayManager
 import android.media.MediaPlayer
 import android.net.wifi.WifiManager
@@ -394,7 +396,7 @@ class WallPanelService : LifecycleService(), MQTTModule.MQTTListener {
         filter.addAction(Intent.ACTION_SCREEN_OFF)
         filter.addAction(Intent.ACTION_USER_PRESENT)
         try {
-            registerReceiver(mBroadcastReceiver, filter)
+            ContextCompat.registerReceiver(this, mBroadcastReceiver, filter, ContextCompat.RECEIVER_EXPORTED)
             systemReceiverRegistered = true
         } catch (e: Exception) {
             Timber.e(e, "Error registering the system broadcast receiver")
@@ -503,12 +505,28 @@ class WallPanelService : LifecycleService(), MQTTModule.MQTTListener {
         // make a continuously running notification
         val notificationUtils = NotificationUtils(applicationContext, application.resources)
         val notification = notificationUtils.createNotification(getString(R.string.wallpanel_service_notification_title), getString(R.string.wallpanel_service_notification_message))
-        startForeground(ONGOING_NOTIFICATION_ID, notification)
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                var type = ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                    type = type or ServiceInfo.FOREGROUND_SERVICE_TYPE_CAMERA
+                }
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+                    type = type or ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE
+                }
+                ServiceCompat.startForeground(this, ONGOING_NOTIFICATION_ID, notification, type)
+            } else {
+                startForeground(ONGOING_NOTIFICATION_ID, notification)
+            }
+        } catch (e: Exception) {
+            Timber.e(e, "Error starting foreground service")
+        }
 
         // listen for network connectivity changes
         connectionLiveData = ConnectionLiveData(this)
         connectionLiveData?.observe(this, Observer { connected ->
-            if (connected!!) {
+            if (connected != null && connected) {
                 handleNetworkConnect()
             } else {
                 handleNetworkDisconnect()
@@ -541,40 +559,42 @@ class WallPanelService : LifecycleService(), MQTTModule.MQTTListener {
     }
 
     private fun configurePowerOptions() {
-        // Acquire CPU wake lock to keep background services running
-        cpuWakeLock?.let {
-            if (!it.isHeld) {
-                it.acquire()
-            }
-        }
-        if (!wifiLock!!.isHeld) {
-            wifiLock!!.acquire()
-        }
         try {
+            // Acquire CPU wake lock to keep background services running
+            cpuWakeLock?.let {
+                if (!it.isHeld) {
+                    it.acquire()
+                }
+            }
+            wifiLock?.let {
+                if (!it.isHeld) {
+                    it.acquire()
+                }
+            }
             keyguardLock?.disableKeyguard()
         } catch (ex: Exception) {
-            Timber.i("Disabling keyguard didn't work")
-            ex.printStackTrace()
+            Timber.i(ex, "Disabling keyguard or acquiring locks didn't work")
         }
     }
 
     private fun stopPowerOptions() {
         Timber.i("Releasing Screen/WiFi Locks")
-        // Release CPU wake lock
-        cpuWakeLock?.let {
-            if (it.isHeld) {
-                it.release()
-            }
-        }
-        releaseScreenWakeLock()
-        if (wifiLock != null && wifiLock!!.isHeld) {
-            wifiLock!!.release()
-        }
         try {
-            keyguardLock!!.reenableKeyguard()
+            // Release CPU wake lock
+            cpuWakeLock?.let {
+                if (it.isHeld) {
+                    it.release()
+                }
+            }
+            releaseScreenWakeLock()
+            wifiLock?.let {
+                if (it.isHeld) {
+                    it.release()
+                }
+            }
+            keyguardLock?.reenableKeyguard()
         } catch (ex: Exception) {
-            Timber.i("Enabling keyguard didn't work")
-            ex.printStackTrace()
+            Timber.i(ex, "Enabling keyguard or releasing locks didn't work")
         }
     }
 
@@ -840,10 +860,14 @@ class WallPanelService : LifecycleService(), MQTTModule.MQTTListener {
             return
         }
         // TODO this is a hack to get utf-8 working, we need to switch http server libraries
-        val charsetsClass = Charsets::class.java
-        val us_ascii = charsetsClass.getDeclaredField("US_ASCII")
-        us_ascii.isAccessible = true
-        us_ascii.set(Charsets::class.java, Charsets.UTF_8)
+        try {
+            val charsetsClass = Charsets::class.java
+            val us_ascii = charsetsClass.getDeclaredField("US_ASCII")
+            us_ascii.isAccessible = true
+            us_ascii.set(Charsets::class.java, Charsets.UTF_8)
+        } catch (e: Exception) {
+            Timber.e(e, "Unable to set Charsets.US_ASCII via reflection")
+        }
         val server = AsyncHttpServer()
         httpServer = server
         httpServerPort = configuration.httpPort

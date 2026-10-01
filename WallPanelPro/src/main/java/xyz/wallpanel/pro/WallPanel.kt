@@ -144,8 +144,7 @@ class WallPanel : DaggerApplication() {
                 Runtime.getRuntime().gc()
             }
             else -> {
-                Timber.v("The app received an unrecognized memory level value from the system. Treat this as a generic low-memory message.")
-                throw IllegalStateException("Unexpected value: $level")
+                Timber.w("The app received an unrecognized memory level value from the system: $level. Treating as generic low-memory message.")
             }
         }
     }

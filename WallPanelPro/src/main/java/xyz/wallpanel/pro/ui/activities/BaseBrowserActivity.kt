@@ -242,7 +242,6 @@ abstract class BaseBrowserActivity : DaggerAppCompatActivity() {
     }
 
     override fun onUserInteraction() {
-        onWindowFocusChanged(true)
         if (!userPresent) {
             userPresent = true
             resetScreenBrightness(false)

@@ -643,17 +643,9 @@ class BrowserActivityNative : BaseBrowserActivity(), LifecycleObserver, WebClien
         configureWebChromeClient()
         configureWebViewClient()
 
-        webView?.setOnTouchListener { v, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    resetScreen()
-                    if (!v.hasFocus()) {
-                        v.requestFocus()
-                    }
-                }
-                MotionEvent.ACTION_UP -> if (!v.hasFocus()) {
-                    v.requestFocus()
-                }
+        webView?.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                resetScreen()
             }
             false
         }
@@ -676,17 +668,9 @@ class BrowserActivityNative : BaseBrowserActivity(), LifecycleObserver, WebClien
         geckoViewWrapper?.setPermissionDelegate(geckoChromeAdapter)
         geckoViewWrapper?.setPromptDelegate(geckoChromeAdapter)
 
-        binding.activityBrowserGeckoview.setOnTouchListener { v, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    resetScreen()
-                    if (!v.hasFocus()) {
-                        v.requestFocus()
-                    }
-                }
-                MotionEvent.ACTION_UP -> if (!v.hasFocus()) {
-                    v.requestFocus()
-                }
+        binding.activityBrowserGeckoview.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                resetScreen()
             }
             false
         }

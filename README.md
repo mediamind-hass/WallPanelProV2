@@ -26,9 +26,14 @@
 - Modern Fragment API implementation
 
 ### Build System
-- Gradle 8.5 with Java 17 support
-- Removed deprecated plugins and dependencies
-- Professional codebase cleanup
+- **Gradle 9.6.0 & AGP 9.4.1** - Updated build toolchain with Java 17 support
+- **Kotlin 2.2.21** - Latest Kotlin language features with Kapt and Parcelize support
+- **Android SDK Target 36** - Built for modern Android (`compileSdkVersion 36`, `targetSdkVersion 34`, `minSdkVersion 21`)
+- **Multi-Flavor Configuration** - Configured product flavors (`dev`, `qa`, `prod`) for distinct development and release environments
+- **Android Retrofix Plugin** - Java 8 streams/future backport support for legacy Android devices (API < 24)
+- **GeckoView 144 Integration** - Modern Firefox browser engine for HTML5/CSS standards rendering on Android 5.0+
+- **LeakCanary 2.9.1** - Memory leak detection scoped specifically to debug builds (`debugImplementation`)
+- Codebase and plugin cleanup removing deprecated dependencies
 
 ### System Monitoring & Control
 - **CPU Usage Sensor** - Real-time system CPU usage monitoring via `/proc/stat`
@@ -45,7 +50,7 @@
 
 # WallPanel
 
-WallPanel is an Android application for Web Based Dashboards and Home Automation Platforms. You can either sideload the application to your Android device from the [release section](https://github.com/alx-uta/wallpanel-android/releases).
+WallPanel is an Android application for Web Based Dashboards and Home Automation Platforms. You can either sideload the application to your Android device from the [release section](https://github.com/mediamind-hass/WallPanelProV2/releases).
 
 ## Screenshots
 
@@ -55,7 +60,7 @@ WallPanel is an Android application for Web Based Dashboards and Home Automation
 
 ## Support
 
-For issues, feature requests, use the [Github issues tracker](https://github.com/alx-uta/wallpanel-android/issues). For examples and to learn how to use each feature, visit [WallPanel Documentation](https://wallpanel.xyz/).
+For issues, feature requests, use the [Github issues tracker](https://github.com/mediamind-hass/WallPanelProV2/issues). For examples and to learn how to use each feature, visit [WallPanel Documentation](https://wallpanel.xyz/).
 
 ## Features
 
@@ -70,7 +75,7 @@ For issues, feature requests, use the [Github issues tracker](https://github.com
 - Remote shell command execution via MQTT/HTTP (opt-in, security warning, runs unprivileged -- see the [Shell Command docs](https://wallpanel.xyz/docs/remote-control/commands#shell-command) for what does and doesn't work).
 - Streaming MJPEG server support using the device camera.
 - Screensaver feature that can be dismissed with motion or face detection.
-- Support for Android 4.4 (API level 19) and greater devices.
+- Support for Android 5.0 (API level 21) and greater devices.
 - Support for launching external applications using intent URL
 
 ## Hardware & Software
@@ -79,11 +84,21 @@ For issues, feature requests, use the [Github issues tracker](https://github.com
 
 ## Quick Start
 
-You can load the application to your device from the [release section](https://github.com/alx-uta/wallpanel-android/releases). The application will open to the welcome page with a link to update the settings. Open the settings by clicking the dashboard floating icon. In the settings, set your web page or home automation platform url. Also set the code for accessing the settings, the default is 1234.
+You can load the application to your device from the [release section](https://github.com/mediamind-hass/WallPanelProV2/releases). The application will open to the welcome page with a link to update the settings. Open the settings by clicking the dashboard floating icon. In the settings, set your web page or home automation platform url. Also set the code for accessing the settings, the default is 1234.
 
 ## Building the Application
 
-To build the application locally, checkout the code from Github and load the project into Android Studio with Android API 31 or higher.
+To build the application locally:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/mediamind-hass/WallPanelProV2.git
+   ```
+2. Open the project in Android Studio (Jellyfish / Ladybug or newer recommended, JDK 17).
+3. Build using Gradle wrapper:
+   ```bash
+   ./gradlew :WallPanelPro:assembleDevDebug
+   ```
+   Or select build flavor (`dev`, `qa`, `prod`) from Android Studio **Build Variants**.
 
 ## Limitations
 
@@ -91,7 +106,7 @@ Setting WallPanel as the default Home application will always load this applicat
 
 ## Contribution
 
-All are welcome to propose a feature request, report or bug, or contribute to the project by updating examples or with a PR for new features. Thanks to all the [contributes](https://github.com/alx-uta/wallpanel-android/graphs/contributors) who have contributed to the project!
+All are welcome to propose a feature request, report or bug, or contribute to the project by updating examples or with a PR for new features. Thanks to all the [contributors](https://github.com/mediamind-hass/WallPanelProV2/graphs/contributors) who have contributed to the project!
 
 ## Special Thanks
 

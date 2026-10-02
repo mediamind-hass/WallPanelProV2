@@ -80,11 +80,13 @@
         </activity>-->
         <activity
             android:name="xyz.wallpanel.pro.ui.activities.BrowserActivityNative"
+            android:launchMode="singleInstance"
+            android:screenOrientation="sensorLandscape"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:enabled="true"
             android:exported="true"
             android:hardwareAccelerated="true"
-            android:theme="@style/AppThemeFullScreen">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

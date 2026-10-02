@@ -24,7 +24,7 @@ plugins {
 
 def versionMajor = 1
 def versionMinor = 1
-def versionPatch = 15
+def versionPatch = 16
 def versionBuild = 0 // bump for dog food builds, public betas, etc.
 
 // HA/MQTT test credentials for dev-flavor builds live in local.testconfig.properties
@@ -57,7 +57,7 @@ android {
     defaultConfig {
         applicationId "xyz.wallpanel.pro"
         minSdkVersion 21
-        targetSdkVersion 34
+        targetSdkVersion 30
         versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}.${versionBuild}"
         multiDexEnabled true

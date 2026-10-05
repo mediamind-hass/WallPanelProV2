@@ -64,14 +64,6 @@ android {
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    splits {
-        abi {
-            reset()
-            enable true
-            universalApk true
-            include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
-        }
-    }
     signingConfigs {
         release {
             storeFile file(System.getenv("KEYSTORE_FILE") ?: "wallpanel-release.keystore")
@@ -230,9 +222,6 @@ dependencies {
     // requires Android 8.0, and from 146 its native library no longer loads below it.
     // Pinned to an exact build, since release artifacts stay on Mozilla's Maven for good.
     implementation "org.mozilla.geckoview:geckoview:144.0.20251027123126"
-
-    // LeakCanary should only run in debug builds.
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
 
     // Unit tests (JVM, no emulator)
     testImplementation 'junit:junit:4.13.2'

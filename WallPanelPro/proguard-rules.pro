@@ -19,6 +19,21 @@
 -keepclassmembernames class io.netty.** { *; }
 -keepclassmembers class org.jctools.** { *; }
 
+# Ignore missing optional Netty, HiveMQ, and Logging classes
+-dontwarn io.netty.**
+-dontwarn com.hivemq.client.**
+-dontwarn org.slf4j.**
+-dontwarn org.apache.log4j.**
+-dontwarn org.apache.logging.log4j.**
+-dontwarn org.eclipse.jetty.**
+-dontwarn java.beans.**
+-dontwarn org.yaml.snakeyaml.**
+-dontwarn reactor.blockhound.**
+
+# Preserve GeckoView classes
+-keep class org.mozilla.geckoview.** { *; }
+-keep interface org.mozilla.geckoview.** { *; }
+
 # Strip debug and verbose logging calls during optimization
 -assumenosideeffects class timber.log.Timber {
     public static void v(...);

@@ -24,7 +24,7 @@ plugins {
 
 def versionMajor = 1
 def versionMinor = 1
-def versionPatch = 10
+def versionPatch = 20
 def versionBuild = 0 // bump for dog food builds, public betas, etc.
 
 // HA/MQTT test credentials for dev-flavor builds live in local.testconfig.properties
@@ -171,9 +171,10 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    packagingOptions {
+    packaging {
         resources {
-            excludes += ['META-INF/INDEX.LIST', 'META-INF/io.netty.versions.properties']
+            excludes.add('META-INF/INDEX.LIST')
+            excludes.add('META-INF/io.netty.versions.properties')
         }
         jniLibs {
             useLegacyPackaging = true

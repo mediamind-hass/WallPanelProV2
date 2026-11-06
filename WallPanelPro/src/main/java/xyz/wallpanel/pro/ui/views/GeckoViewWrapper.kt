@@ -62,11 +62,11 @@ class GeckoViewWrapper(
                 // Enable web fonts
                 builder.webFontsEnabled(true)
                 
-                // Enable remote debugging in debug builds
-                builder.remoteDebuggingEnabled(android.os.Build.TYPE == "userdebug")
+                // Disable remote debugging for production security and performance
+                builder.remoteDebuggingEnabled(false)
                 
-                // Configure console output for debugging
-                builder.consoleOutput(true)
+                // Configure console output for production
+                builder.consoleOutput(false)
                 
                 // About:config settings for better performance
                 builder.aboutConfigEnabled(true)

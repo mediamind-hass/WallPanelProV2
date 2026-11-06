@@ -1,10 +1,9 @@
 ## Recent Improvements
 
 ### Browser Engine
-- **GeckoView Integration** - Added Mozilla Firefox's GeckoView engine as an alternative to WebView
-- Runtime browser engine switching (WebView/GeckoView)
-- Better modern web standards support (ES6+, WebGL, advanced CSS)
-- Improved dark mode support with proper rendering
+- **GeckoView 144 Integration** - Mozilla Firefox rendering engine as the default browser engine for modern web standards (ES2023, WebSockets, WebGL, CSS Grid)
+- **Fanvil i507w & Legacy Device Support** - Full compatibility with Android 9.0 (API 28) intercoms and touch panels with outdated system WebViews
+- Runtime browser engine switching and optimized session lifecycle management
 
 ### Performance Optimisations
 - **Camera CPU Optimisation** - Reduced motion detection CPU usage by 85-92% through frame skipping and low-resolution processing
@@ -26,14 +25,14 @@
 - Modern Fragment API implementation
 
 ### Build System
-- **Gradle 9.6.0 & AGP 9.4.1** - Updated build toolchain with Java 17 support
-- **Kotlin 2.2.21** - Latest Kotlin language features with Kapt and Parcelize support
-- **Android SDK Target 36** - Built for modern Android (`compileSdkVersion 36`, `targetSdkVersion 34`, `minSdkVersion 21`)
+- **Gradle 8.13 & AGP 8.13.2** - Stable and robust build toolchain with Java 17 support
+- **PROD RELEASE Optimizations** - R8 minification, resource shrinking, and legacy JNI compression (`useLegacyPackaging = true`) yielding ultra-lightweight APKs (~20 MB for ARM32/Fanvil i507w and ~25 MB for ARM64)
+- **ABI Splits** - Targeted per-architecture APK generation (`armeabi-v7a`, `arm64-v8a`)
+- **Android SDK Target 34** - Built for modern Android (`compileSdkVersion 36`, `targetSdkVersion 34`, `minSdkVersion 21`)
 - **Multi-Flavor Configuration** - Configured product flavors (`dev`, `qa`, `prod`) for distinct development and release environments
 - **Android Retrofix Plugin** - Java 8 streams/future backport support for legacy Android devices (API < 24)
-- **GeckoView 144 Integration** - Modern Firefox browser engine for HTML5/CSS standards rendering on Android 5.0+
-- **LeakCanary 2.9.1** - Memory leak detection scoped specifically to debug builds (`debugImplementation`)
-- Codebase and plugin cleanup removing deprecated dependencies
+- **GeckoView 144 Engine** - Embedded Mozilla Firefox rendering engine for modern web standards on Android 5.0+ (API 21+)
+- **Production Hardening** - Removed LeakCanary, disabled remote debugging and console logging in release runtimes for enhanced security and memory efficiency
 
 ### System Monitoring & Control
 - **CPU Usage Sensor** - Real-time system CPU usage monitoring via `/proc/stat`
